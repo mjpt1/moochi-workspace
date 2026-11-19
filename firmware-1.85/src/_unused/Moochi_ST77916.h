@@ -1,0 +1,266 @@
+#pragma once
+#include <Arduino_GFX_Library.h>
+
+// =====================================================
+//  درايور نمايشگر مخصوص ESP32-S3-Touch-LCD-1.85C
+// =====================================================
+//  چرا اين فايل وجود دارد:
+//
+//  کتابخانه‌ي Arduino_GFX کلاس Arduino_ST77916 را دارد، ولي
+//  جدول راه‌اندازي‌اش براي پنل ديگري است (۱.۵ اينچ).
+//  پنل ۱.۸۵C ما جدول متفاوتي مي‌خواهد.
+//
+//  جدول زير عين جدول فعال مخزن رسمي Waveshare است:
+//  github.com/waveshareteam/ESP32-S3-Touch-LCD-1.85C
+//    Arduino/examples/01_lvgl_example/esp_lcd_st77916.c
+//    → vendor_specific_init_default  (بخش کامنت‌نشده)
+//
+//  تفاوت کليدي با جدول کتابخانه:
+//    کتابخانه : 0xF0→0x08 ، 0xB0→0x54 ، 0xB1→0x3F ، 0xB2→0x2A
+//    پنل ما   : 0xF0→0x28 ، 0xB0→0x49 ، 0xB1→0x4A ، 0xB2→0x1F
+// =====================================================
+
+static const uint8_t moochi_st77916_init_operations[] = {
+    BEGIN_WRITE,
+
+    // MADCTL — ترتيب رنگ.
+    // 0x00 = RGB . اگر قرمز و آبي جابه‌جا بودند، 0x08 کن.
+    WRITE_C8_D8, 0x36, 0x00,
+    // COLMOD — عمق رنگ. 0x55 = RGB565 شانزده بيتي
+    WRITE_C8_D8, 0x3A, 0x55,
+
+    WRITE_C8_D8, 0xF0, 0x28,
+    WRITE_C8_D8, 0xF2, 0x28,
+    WRITE_C8_D8, 0x7C, 0xD1,
+    WRITE_C8_D8, 0x83, 0xE0,
+    WRITE_C8_D8, 0x84, 0x61,
+    WRITE_C8_D8, 0xF2, 0x82,
+    WRITE_C8_D8, 0xF0, 0x00,
+
+    WRITE_C8_D8, 0xF0, 0x01,
+    WRITE_C8_D8, 0xF1, 0x01,
+    WRITE_C8_D8, 0xB0, 0x49,
+    WRITE_C8_D8, 0xB1, 0x4A,
+    WRITE_C8_D8, 0xB2, 0x1F,
+    WRITE_C8_D8, 0xB4, 0x46,
+    WRITE_C8_D8, 0xB5, 0x34,
+    WRITE_C8_D8, 0xB6, 0xD5,
+    WRITE_C8_D8, 0xB7, 0x30,
+    WRITE_C8_D8, 0xB8, 0x04,
+    WRITE_C8_D8, 0xBA, 0x00,
+    WRITE_C8_D8, 0xBB, 0x08,
+    WRITE_C8_D8, 0xBC, 0x08,
+    WRITE_C8_D8, 0xBD, 0x00,
+    WRITE_C8_D8, 0xC0, 0x80,
+    WRITE_C8_D8, 0xC1, 0x10,
+    WRITE_C8_D8, 0xC2, 0x37,
+    WRITE_C8_D8, 0xC3, 0x80,
+    WRITE_C8_D8, 0xC4, 0x10,
+    WRITE_C8_D8, 0xC5, 0x37,
+    WRITE_C8_D8, 0xC6, 0xA9,
+    WRITE_C8_D8, 0xC7, 0x41,
+    WRITE_C8_D8, 0xC8, 0x01,
+    WRITE_C8_D8, 0xC9, 0xA9,
+    WRITE_C8_D8, 0xCA, 0x41,
+    WRITE_C8_D8, 0xCB, 0x01,
+    WRITE_C8_D8, 0xD0, 0x91,
+    WRITE_C8_D8, 0xD1, 0x68,
+    WRITE_C8_D8, 0xD2, 0x68,
+    WRITE_C8_BYTES, 0xF5, 2, 0x00, 0xA5,
+    WRITE_C8_D8, 0xF1, 0x10,
+    WRITE_C8_D8, 0xF0, 0x00,
+
+    WRITE_C8_D8, 0xF0, 0x02,
+    WRITE_C8_BYTES, 0xE0, 14,
+    0x70, 0x09, 0x12, 0x0C, 0x0B, 0x27, 0x38,
+    0x54, 0x4E, 0x19, 0x15, 0x15, 0x2C, 0x2F,
+    WRITE_C8_BYTES, 0xE1, 14,
+    0x70, 0x08, 0x11, 0x0C, 0x0B, 0x27, 0x38,
+    0x43, 0x4C, 0x18, 0x14, 0x14, 0x2B, 0x2D,
+
+    WRITE_C8_D8, 0xF0, 0x10,
+    WRITE_C8_D8, 0xF3, 0x10,
+    WRITE_C8_D8, 0xE0, 0x08,
+    WRITE_C8_D8, 0xE1, 0x00,
+    WRITE_C8_D8, 0xE2, 0x0B,
+    WRITE_C8_D8, 0xE3, 0x00,
+    WRITE_C8_D8, 0xE4, 0xE0,
+    WRITE_C8_D8, 0xE5, 0x06,
+    WRITE_C8_D8, 0xE6, 0x21,
+    WRITE_C8_D8, 0xE7, 0x00,
+    WRITE_C8_D8, 0xE8, 0x05,
+    WRITE_C8_D8, 0xE9, 0x82,
+    WRITE_C8_D8, 0xEA, 0xDF,
+    WRITE_C8_D8, 0xEB, 0x89,
+    WRITE_C8_D8, 0xEC, 0x20,
+    WRITE_C8_D8, 0xED, 0x14,
+    WRITE_C8_D8, 0xEE, 0xFF,
+    WRITE_C8_D8, 0xEF, 0x00,
+    WRITE_C8_D8, 0xF8, 0xFF,
+    WRITE_C8_D8, 0xF9, 0x00,
+    WRITE_C8_D8, 0xFA, 0x00,
+    WRITE_C8_D8, 0xFB, 0x30,
+    WRITE_C8_D8, 0xFC, 0x00,
+    WRITE_C8_D8, 0xFD, 0x00,
+    WRITE_C8_D8, 0xFE, 0x00,
+    WRITE_C8_D8, 0xFF, 0x00,
+
+    WRITE_C8_D8, 0x60, 0x42,
+    WRITE_C8_D8, 0x61, 0xE0,
+    WRITE_C8_D8, 0x62, 0x40,
+    WRITE_C8_D8, 0x63, 0x40,
+    WRITE_C8_D8, 0x64, 0x02,
+    WRITE_C8_D8, 0x65, 0x00,
+    WRITE_C8_D8, 0x66, 0x40,
+    WRITE_C8_D8, 0x67, 0x03,
+    WRITE_C8_D8, 0x68, 0x00,
+    WRITE_C8_D8, 0x69, 0x00,
+    WRITE_C8_D8, 0x6A, 0x00,
+    WRITE_C8_D8, 0x6B, 0x00,
+
+    WRITE_C8_D8, 0x70, 0x42,
+    WRITE_C8_D8, 0x71, 0xE0,
+    WRITE_C8_D8, 0x72, 0x40,
+    WRITE_C8_D8, 0x73, 0x40,
+    WRITE_C8_D8, 0x74, 0x02,
+    WRITE_C8_D8, 0x75, 0x00,
+    WRITE_C8_D8, 0x76, 0x40,
+    WRITE_C8_D8, 0x77, 0x03,
+    WRITE_C8_D8, 0x78, 0x00,
+    WRITE_C8_D8, 0x79, 0x00,
+    WRITE_C8_D8, 0x7A, 0x00,
+    WRITE_C8_D8, 0x7B, 0x00,
+
+    WRITE_C8_D8, 0x80, 0x38,
+    WRITE_C8_D8, 0x81, 0x00,
+    WRITE_C8_D8, 0x82, 0x04,
+    WRITE_C8_D8, 0x83, 0x02,
+    WRITE_C8_D8, 0x84, 0xDC,
+    WRITE_C8_D8, 0x85, 0x00,
+    WRITE_C8_D8, 0x86, 0x00,
+    WRITE_C8_D8, 0x87, 0x00,
+    WRITE_C8_D8, 0x88, 0x38,
+    WRITE_C8_D8, 0x89, 0x00,
+    WRITE_C8_D8, 0x8A, 0x06,
+    WRITE_C8_D8, 0x8B, 0x02,
+    WRITE_C8_D8, 0x8C, 0xDE,
+    WRITE_C8_D8, 0x8D, 0x00,
+    WRITE_C8_D8, 0x8E, 0x00,
+    WRITE_C8_D8, 0x8F, 0x00,
+    WRITE_C8_D8, 0x90, 0x38,
+    WRITE_C8_D8, 0x91, 0x00,
+    WRITE_C8_D8, 0x92, 0x08,
+    WRITE_C8_D8, 0x93, 0x02,
+    WRITE_C8_D8, 0x94, 0xE0,
+    WRITE_C8_D8, 0x95, 0x00,
+    WRITE_C8_D8, 0x96, 0x00,
+    WRITE_C8_D8, 0x97, 0x00,
+    WRITE_C8_D8, 0x98, 0x38,
+    WRITE_C8_D8, 0x99, 0x00,
+    WRITE_C8_D8, 0x9A, 0x0A,
+    WRITE_C8_D8, 0x9B, 0x02,
+    WRITE_C8_D8, 0x9C, 0xE2,
+    WRITE_C8_D8, 0x9D, 0x00,
+    WRITE_C8_D8, 0x9E, 0x00,
+    WRITE_C8_D8, 0x9F, 0x00,
+    WRITE_C8_D8, 0xA0, 0x38,
+    WRITE_C8_D8, 0xA1, 0x00,
+    WRITE_C8_D8, 0xA2, 0x03,
+    WRITE_C8_D8, 0xA3, 0x02,
+    WRITE_C8_D8, 0xA4, 0xDB,
+    WRITE_C8_D8, 0xA5, 0x00,
+    WRITE_C8_D8, 0xA6, 0x00,
+    WRITE_C8_D8, 0xA7, 0x00,
+    WRITE_C8_D8, 0xA8, 0x38,
+    WRITE_C8_D8, 0xA9, 0x00,
+    WRITE_C8_D8, 0xAA, 0x05,
+    WRITE_C8_D8, 0xAB, 0x02,
+    WRITE_C8_D8, 0xAC, 0xDD,
+    WRITE_C8_D8, 0xAD, 0x00,
+    WRITE_C8_D8, 0xAE, 0x00,
+    WRITE_C8_D8, 0xAF, 0x00,
+    WRITE_C8_D8, 0xB0, 0x38,
+    WRITE_C8_D8, 0xB1, 0x00,
+    WRITE_C8_D8, 0xB2, 0x07,
+    WRITE_C8_D8, 0xB3, 0x02,
+    WRITE_C8_D8, 0xB4, 0xDF,
+    WRITE_C8_D8, 0xB5, 0x00,
+    WRITE_C8_D8, 0xB6, 0x00,
+    WRITE_C8_D8, 0xB7, 0x00,
+    WRITE_C8_D8, 0xB8, 0x38,
+    WRITE_C8_D8, 0xB9, 0x00,
+    WRITE_C8_D8, 0xBA, 0x09,
+    WRITE_C8_D8, 0xBB, 0x02,
+    WRITE_C8_D8, 0xBC, 0xE1,
+    WRITE_C8_D8, 0xBD, 0x00,
+    WRITE_C8_D8, 0xBE, 0x00,
+    WRITE_C8_D8, 0xBF, 0x00,
+
+    WRITE_C8_D8, 0xC0, 0x22,
+    WRITE_C8_D8, 0xC1, 0xAA,
+    WRITE_C8_D8, 0xC2, 0x65,
+    WRITE_C8_D8, 0xC3, 0x74,
+    WRITE_C8_D8, 0xC4, 0x47,
+    WRITE_C8_D8, 0xC5, 0x56,
+    WRITE_C8_D8, 0xC6, 0x00,
+    WRITE_C8_D8, 0xC7, 0x88,
+    WRITE_C8_D8, 0xC8, 0x99,
+    WRITE_C8_D8, 0xC9, 0x33,
+
+    WRITE_C8_D8, 0xD0, 0x11,
+    WRITE_C8_D8, 0xD1, 0xAA,
+    WRITE_C8_D8, 0xD2, 0x65,
+    WRITE_C8_D8, 0xD3, 0x74,
+    WRITE_C8_D8, 0xD4, 0x47,
+    WRITE_C8_D8, 0xD5, 0x56,
+    WRITE_C8_D8, 0xD6, 0x00,
+    WRITE_C8_D8, 0xD7, 0x88,
+    WRITE_C8_D8, 0xD8, 0x99,
+    WRITE_C8_D8, 0xD9, 0x33,
+
+    WRITE_C8_D8, 0xF3, 0x01,
+    WRITE_C8_D8, 0xF0, 0x00,      // برگشت به صفحه‌ي فرمان ۰
+
+    // ⚠️ اينجا دوباره تنظيم رنگ را مي‌فرستيم — و اين بار حياتي است.
+    // فرستادن اين دو در ابتداي جدول اثر نکرد، چون بينشان ده‌ها فرمان
+    // و چند بار تعويض صفحه (0xF0) انجام شد و تنظيم به حالت پيش‌فرض
+    // ۱۸ بيتي برگشت. نتيجه: پنل ۳ بايت براي هر پيکسل مي‌خواست و ما
+    // ۲ بايت مي‌فرستاديم → فقط دو سوم هر رديف پر مي‌شد (نوارها) و
+    // بايت‌ها در کانال رنگ اشتباه مي‌نشستند (قرمز → فيروزه‌اي).
+    WRITE_C8_D8, 0x3A, 0x55,      // COLMOD = RGB565 ، شانزده بيت
+    WRITE_C8_D8, 0x36, 0x00,      // MADCTL = RGB . اگر قرمز/آبي قاطي شد → 0x08
+
+    WRITE_COMMAND_8, 0x21,        // INVON — وارونگي رنگ روشن
+    WRITE_COMMAND_8, 0x11,        // SLPOUT — بيدار شو
+    DELAY, 120,
+    WRITE_COMMAND_8, 0x29,        // DISPON — نمايش روشن
+
+    END_WRITE,
+};
+
+// =====================================================
+//  کلاس ما — همان Arduino_ST77916 با جدول درست
+// =====================================================
+class Moochi_ST77916 : public Arduino_ST77916
+{
+public:
+  using Arduino_ST77916::Arduino_ST77916;   // همان سازنده
+
+protected:
+  void tftInit() override
+  {
+    // ريست نرم‌افزاري.
+    // ريست سخت‌افزاري را خودمان با TCA9554 زده‌ايم،
+    // پس _rst اينجا GFX_NOT_DEFINED است.
+    _bus->sendCommand(0x01);      // SWRESET
+    delay(120);
+
+    _bus->batchOperation(moochi_st77916_init_operations,
+                         sizeof(moochi_st77916_init_operations));
+
+    // جدول بالا خودش 0x21 (INVON) فرستاده.
+    // اينجا دوباره اعلامش مي‌کنيم تا حالت داخلي کتابخانه هماهنگ بماند.
+    // اگر رنگ‌ها منفي به نظر رسيدند، اين را به false عوض کن.
+    invertDisplay(true);
+  }
+};

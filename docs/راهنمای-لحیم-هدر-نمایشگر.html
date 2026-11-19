@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>راهنمای لحیم هدر نمایشگر و برق 3V3</title>
+<style>
+  body{font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;background:#f6f5f1;color:#222;margin:0;padding:24px;line-height:1.9}
+  .wrap{max-width:980px;margin:auto}
+  h1{font-size:26px;margin:0 0 4px}
+  .sub{color:#666;margin-bottom:24px}
+  .card{background:#fff;border-radius:14px;padding:20px 24px;margin-bottom:22px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  h2{font-size:20px;margin:0 0 10px}
+  .n{display:inline-block;background:#1d3f8f;color:#fff;border-radius:50%;width:30px;height:30px;text-align:center;line-height:30px;margin-left:8px;font-size:16px}
+  svg{width:100%;height:auto;display:block;margin:10px 0}
+  .warn{background:#fff1ee;border-right:5px solid #d23a1e;padding:10px 14px;border-radius:8px;margin:10px 0}
+  .ok{background:#eef8ef;border-right:5px solid #2e8b3a;padding:10px 14px;border-radius:8px;margin:10px 0}
+  ol li,ul li{margin-bottom:4px}
+  code{background:#eef;padding:1px 6px;border-radius:4px;direction:ltr;display:inline-block}
+  .ltr{direction:ltr;unicode-bidi:embed}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>لحیم هدر روی نمایشگر ۱٫۶۹ اینچ + برق 3V3</h1>
+<div class="sub">موچی · ۳ مهر ۱۴۰۵ · برای نمایشگر ۸ پایه (<span class="ltr">GND VCC SCL SDA RES DC CS BLK</span>). نمایشگر ۱٫۳ اینچی ۷ پایه هم دقیقاً همین‌طور لحیم می‌شود.</div>
+
+<!-- ============ 1 ============ -->
+<div class="card">
+<h2><span class="n">۱</span>کدام طرف؟ — پایه‌ها پشت، لحیم جلو</h2>
+<p>می‌خواهیم نمایشگر <b>رو به بالا</b> روی بردبورد بنشیند. پس:</p>
+<ul>
+  <li><b>پلاستیک مشکی هدر و پایه‌های بلند</b> ← طرف <b>پشت</b> برد (همان طرفی که نوشته‌ی <span class="ltr">ZJY169S…</span> دارد).</li>
+  <li><b>سرِ کوتاه پایه‌ها</b> از سوراخ رد می‌شود و از طرف <b>جلو</b> (طرف شیشه) بیرون می‌زند ← <b>لحیم از جلو</b>.</li>
+</ul>
+<svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma,sans-serif">
+  <!-- side view -->
+  <text x="450" y="24" text-anchor="middle" font-size="17" fill="#444">نمای کنار (از بغل نگاه کن)</text>
+  <!-- display glass -->
+  <rect x="330" y="70" width="380" height="16" rx="3" fill="#111"/>
+  <text x="720" y="84" font-size="15" fill="#111" text-anchor="start">← شیشه‌ی نمایشگر (رو به بالا)</text>
+  <!-- pcb -->
+  <rect x="150" y="86" width="580" height="12" fill="#1d4fa8"/>
+  <text x="740" y="100" font-size="15" fill="#1d4fa8">← برد آبی</text>
+  <!-- header pins -->
+  <g>
+    <rect x="160" y="98" width="130" height="18" fill="#222"/>
+    <text x="225" y="133" font-size="14" fill="#222" text-anchor="middle">پلاستیک هدر</text>
+  </g>
+  <!-- pins: short above, long below -->
+  <g stroke="#c9a227" stroke-width="6" stroke-linecap="round">
+    <line x1="180" y1="70" x2="180" y2="200"/>
+    <line x1="210" y1="70" x2="210" y2="200"/>
+    <line x1="240" y1="70" x2="240" y2="200"/>
+    <line x1="270" y1="70" x2="270" y2="200"/>
+  </g>
+  <!-- solder cones -->
+  <g fill="#b8b8b8" stroke="#888">
+    <path d="M170 86 L180 66 L190 86 Z"/><path d="M200 86 L210 66 L220 86 Z"/>
+    <path d="M230 86 L240 66 L250 86 Z"/><path d="M260 86 L270 66 L280 86 Z"/>
+  </g>
+  <text x="150" y="50" font-size="15" fill="#2e8b3a" text-anchor="middle">لحیم این‌جا (جلو)</text>
+  <line x1="150" y1="56" x2="178" y2="70" stroke="#2e8b3a" stroke-width="2"/>
+  <!-- breadboard -->
+  <rect x="100" y="200" width="700" height="60" rx="6" fill="#eeeeea" stroke="#bbb"/>
+  <g fill="#555"><rect x="175" y="200" width="10" height="8"/><rect x="205" y="200" width="10" height="8"/><rect x="235" y="200" width="10" height="8"/><rect x="265" y="200" width="10" height="8"/></g>
+  <text x="450" y="238" font-size="16" fill="#666" text-anchor="middle">بردبورد — پایه‌های بلند این تو</text>
+  <text x="80" y="140" font-size="14" fill="#c9a227" text-anchor="middle">پایه‌ی بلند ↓</text>
+  <text x="450" y="300" font-size="15" fill="#444" text-anchor="middle">نمایشگر رو به بالا · پایه‌ها زیرش · لحیم روی سوراخ‌های طرف شیشه</text>
+</svg>
+</div>
+
+<!-- ============ 2 ============ -->
+<div class="card">
+<h2><span class="n">۲</span>ترفند بردبورد — تا پایه‌ها صاف بمانند</h2>
+<ol>
+  <li>هدر ۸ تایی را <b>با پایه‌های بلند</b> توی بردبورد فرو کن. (اگر نوار هدر بلندتر است، ۸ تا را با انبردست جدا کن.)</li>
+  <li>نمایشگر را <b>رو به بالا</b> بگذار روی آن، طوری که سرِ کوتاهِ پایه‌ها از ۸ سوراخ بیرون بزند.</li>
+  <li>بردبورد هدر را صاف و عمود نگه می‌دارد، دست تو آزاد است.</li>
+  <li><b>ESP32 و هیچ سیمی روی آن بردبورد نباشد</b> — یا از یک تکه‌ی خالی بردبورد استفاده کن.</li>
+</ol>
+<svg viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma,sans-serif">
+  <text x="450" y="24" text-anchor="middle" font-size="17" fill="#444">نمای از بالا (نمایشگر ۱٫۶۹ روی هدر)</text>
+  <!-- pcb -->
+  <rect x="300" y="40" width="300" height="200" rx="10" fill="#1d4fa8"/>
+  <rect x="325" y="45" width="250" height="140" rx="22" fill="#111"/>
+  <text x="450" y="120" text-anchor="middle" font-size="15" fill="#ccc">شیشه — فیلم محافظ را نکَن</text>
+  <!-- pads + labels -->
+  <g font-size="12" fill="#fff" text-anchor="middle" font-family="monospace">
+    <text x="345" y="205">GND</text><text x="375" y="205">VCC</text><text x="405" y="205">SCL</text><text x="435" y="205">SDA</text>
+    <text x="465" y="205">RES</text><text x="495" y="205">DC</text><text x="525" y="205">CS</text><text x="555" y="205">BLK</text>
+  </g>
+  <g fill="#ddd" stroke="#999" stroke-width="2">
+    <rect x="337" y="214" width="16" height="16"/>
+    <circle cx="375" cy="222" r="8"/><circle cx="405" cy="222" r="8"/><circle cx="435" cy="222" r="8"/>
+    <circle cx="465" cy="222" r="8"/><circle cx="495" cy="222" r="8"/><circle cx="525" cy="222" r="8"/><circle cx="555" cy="222" r="8"/>
+  </g>
+  <text x="250" y="226" font-size="14" fill="#444" text-anchor="end">پد مربعی = پایه‌ی ۱ (GND) →</text>
+  <text x="620" y="226" font-size="14" fill="#d23a1e">← آهن لحیم به شیشه و نوار زرد نخورد</text>
+</svg>
+</div>
+
+<!-- ============ 3 ============ -->
+<div class="card">
+<h2><span class="n">۳</span>ترتیب لحیم</h2>
+<ol>
+  <li><b>فقط پایه‌ی اول (GND، پد مربعی)</b> را لحیم کن.</li>
+  <li>نگاه کن: نمایشگر صاف و موازی نشسته؟ اگر کج است، همان یک لحیم را گرم کن و صافش کن. (با یک لحیم اصلاح آسان است، با ۸ تا نه.)</li>
+  <li><b>پایه‌ی آخر (BLK)</b> را لحیم کن.</li>
+  <li>حالا ۶ تای وسط.</li>
+</ol>
+<div class="ok"><b>هر پایه:</b> نوک هویه را همزمان به <b>پایه و حلقه‌ی مسی</b> بچسبان (۱ ثانیه)، بعد سیم لحیم را به <b>محل اتصال</b> بزن نه به نوک هویه. وقتی لحیم دور پایه پخش شد، اول سیم لحیم را بردار، بعد هویه را. کل کار ۲ تا ۳ ثانیه.</div>
+</div>
+
+<!-- ============ 4 ============ -->
+<div class="card">
+<h2><span class="n">۴</span>لحیم خوب و بد</h2>
+<svg viewBox="0 0 900 230" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma,sans-serif">
+  <!-- base board line -->
+  <g>
+    <!-- good -->
+    <rect x="40" y="150" width="160" height="14" fill="#1d4fa8"/>
+    <line x1="120" y1="60" x2="120" y2="164" stroke="#c9a227" stroke-width="7"/>
+    <path d="M88 150 Q120 100 120 80 Q120 100 152 150 Z" fill="#c8c8c8" stroke="#888"/>
+    <text x="120" y="195" text-anchor="middle" font-size="17" fill="#2e8b3a">✅ خوب</text>
+    <text x="120" y="218" text-anchor="middle" font-size="13" fill="#555">مخروطی ، براق ، حلقه کامل پوشیده</text>
+    <!-- ball -->
+    <rect x="250" y="150" width="160" height="14" fill="#1d4fa8"/>
+    <line x1="330" y1="60" x2="330" y2="164" stroke="#c9a227" stroke-width="7"/>
+    <circle cx="330" cy="120" r="24" fill="#a9a9a9" stroke="#777"/>
+    <text x="330" y="195" text-anchor="middle" font-size="17" fill="#d23a1e">❌ توپی</text>
+    <text x="330" y="218" text-anchor="middle" font-size="13" fill="#555">به حلقه نچسبیده (گرما کم بود)</text>
+    <!-- bridge -->
+    <rect x="460" y="150" width="190" height="14" fill="#1d4fa8"/>
+    <line x1="520" y1="60" x2="520" y2="164" stroke="#c9a227" stroke-width="7"/>
+    <line x1="590" y1="60" x2="590" y2="164" stroke="#c9a227" stroke-width="7"/>
+    <path d="M495 150 Q520 110 555 125 Q590 110 615 150 Z" fill="#c8c8c8" stroke="#888"/>
+    <text x="555" y="195" text-anchor="middle" font-size="17" fill="#d23a1e">❌ پل</text>
+    <text x="555" y="218" text-anchor="middle" font-size="13" fill="#555">دو پایه به هم چسبیده — اتصال کوتاه!</text>
+    <!-- too little -->
+    <rect x="700" y="150" width="160" height="14" fill="#1d4fa8"/>
+    <line x1="780" y1="60" x2="780" y2="164" stroke="#c9a227" stroke-width="7"/>
+    <path d="M770 150 Q780 140 780 132 Q780 140 790 150 Z" fill="#c8c8c8" stroke="#888"/>
+    <text x="780" y="195" text-anchor="middle" font-size="17" fill="#d23a1e">❌ کم</text>
+    <text x="780" y="218" text-anchor="middle" font-size="13" fill="#555">سوراخ هنوز پیداست</text>
+  </g>
+</svg>
+<div class="warn"><b>پل</b> خطرناک‌ترین است: مخصوصاً بین <span class="ltr">GND</span> و <span class="ltr">VCC</span> (دو پایه‌ی اول کنار هم). اگر پیش آمد، هویه‌ی تمیز را بین دو پایه بکش تا لحیم اضافه جدا شود.</div>
+<div class="ok"><b>تست بعد از لحیم (مولتی‌متر حالت بوق):</b> هر دو پایه‌ی کنار هم را امتحان کن — <b>نباید بوق بزند</b>. مخصوصاً <span class="ltr">GND ↔ VCC</span>.</div>
+</div>
+
+<!-- ============ 5 ============ -->
+<div class="card">
+<h2><span class="n">۵</span>فقط یک 3V3 داریم — چطور به همه برسد؟</h2>
+<p>با <b>ریل برق بردبورد</b> (خط‌های بلند قرمز + و آبی − کنار بردبورد). پایه‌ی <span class="ltr">3V3</span> را <b>یک بار</b> به ریل قرمز می‌بری، و هر قطعه برقش را از ریل می‌گیرد. زمین هم همین‌طور با ریل آبی.</p>
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="Tahoma,sans-serif">
+  <!-- rails -->
+  <rect x="60" y="40" width="780" height="22" rx="4" fill="#fde8e8" stroke="#e05555"/>
+  <text x="70" y="57" font-size="15" fill="#c02020">+  ریل قرمز = 3V3</text>
+  <rect x="60" y="72" width="780" height="22" rx="4" fill="#e6eefc" stroke="#4a78d4"/>
+  <text x="70" y="89" font-size="15" fill="#2a58b4">−  ریل آبی = GND</text>
+  <!-- ESP32 -->
+  <rect x="80" y="180" width="170" height="130" rx="8" fill="#222"/>
+  <text x="165" y="255" text-anchor="middle" font-size="18" fill="#fff">ESP32</text>
+  <circle cx="120" cy="190" r="7" fill="#c9a227"/><text x="120" y="215" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">3V3</text>
+  <circle cx="210" cy="190" r="7" fill="#c9a227"/><text x="210" y="215" text-anchor="middle" font-size="12" fill="#fff" font-family="monospace">GND</text>
+  <line x1="120" y1="183" x2="120" y2="51" stroke="#e05555" stroke-width="5"/>
+  <line x1="210" y1="183" x2="210" y2="83" stroke="#333" stroke-width="5"/>
+  <!-- MPU -->
+  <rect x="340" y="200" width="150" height="90" rx="8" fill="#1d4fa8"/>
+  <text x="415" y="255" text-anchor="middle" font-size="16" fill="#fff">MPU</text>
+  <circle cx="380" cy="210" r="6" fill="#c9a227"/><text x="380" y="232" text-anchor="middle" font-size="11" fill="#fff" font-family="monospace">VCC</text>
+  <circle cx="450" cy="210" r="6" fill="#c9a227"/><text x="450" y="232" text-anchor="middle" font-size="11" fill="#fff" font-family="monospace">GND</text>
+  <line x1="380" y1="204" x2="380" y2="51" stroke="#e05555" stroke-width="4"/>
+  <line x1="450" y1="204" x2="450" y2="83" stroke="#333" stroke-width="4"/>
+  <!-- display -->
+  <rect x="570" y="180" width="230" height="130" rx="8" fill="#1d4fa8"/>
+  <text x="685" y="275" text-anchor="middle" font-size="16" fill="#fff">نمایشگر ۱٫۶۹</text>
+  <circle cx="600" cy="190" r="6" fill="#c9a227"/><text x="600" y="212" text-anchor="middle" font-size="11" fill="#fff" font-family="monospace">VCC</text>
+  <circle cx="680" cy="190" r="6" fill="#c9a227"/><text x="680" y="212" text-anchor="middle" font-size="11" fill="#fff" font-family="monospace">BLK</text>
+  <circle cx="760" cy="190" r="6" fill="#c9a227"/><text x="760" y="212" text-anchor="middle" font-size="11" fill="#fff" font-family="monospace">GND</text>
+  <line x1="600" y1="184" x2="600" y2="51" stroke="#e05555" stroke-width="4"/>
+  <line x1="680" y1="184" x2="680" y2="51" stroke="#e05555" stroke-width="4"/>
+  <line x1="760" y1="184" x2="760" y2="83" stroke="#333" stroke-width="4"/>
+  <text x="450" y="345" text-anchor="middle" font-size="15" fill="#444">یک سیم از 3V3 به ریل + · یک سیم از GND به ریل − · بقیه همه از ریل</text>
+</svg>
+<ul>
+  <li>الان سیم سبز از <span class="ltr">3V3</span> مستقیم به MPU می‌رود. فردا: <b>سیم سبز را از 3V3 به ریل قرمز</b> ببر، و MPU را با یک سیم جدا از ریل قرمز برق بده. زمین آبی هم همین‌طور ← ریل آبی.</li>
+  <li><b>برای یک نمایشگر:</b> سه سیم از ریل‌ها: <span class="ltr">VCC → +</span> ، <span class="ltr">BLK → +</span> (نور همیشه روشن) ، <span class="ltr">GND → −</span>.</li>
+  <li><b>نمایشگر دوم هم</b> اگر روزی وصل شد، برقش را از همین ریل‌ها می‌گیرد. ولی ۱٫۳ اینچی پایه‌ی CS ندارد و سیم‌های داده‌اش جدا می‌شود — فعلاً فقط ۱٫۶۹ را وصل می‌کنیم.</li>
+</ul>
+<div class="warn">
+<b>سه تله:</b><br>
+۱. ریل‌های بردبورد تو <b>از وسط قطع‌اند</b>. اگر قطعه‌ای روی نیمه‌ی دیگر است، با دو سیم کوتاه <b>قرمز به قرمز و آبی به آبی</b> دو نیمه را به هم وصل کن.<br>
+۲. کنار <span class="ltr">3V3</span> روی ESP32 پایه‌ی <span class="ltr">EN</span> است — اشتباهی به آن نزن.<br>
+۳. <span class="ltr">V5</span> هرگز به ریل قرمز نرود. نمایشگر و MPU فقط ۳٫۳ ولت. <b>همه‌ی سیم‌کشی با USB کشیده.</b>
+</div>
+<p>جای دقیق نمایشگر روی بردبورد را فردا بعد از لحیم، از روی عکس خودت می‌چینیم.</p>
+</div>
+
+</div></body></html>

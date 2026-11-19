@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>موچی — راهنمای نصب نمایشگر گرد ، فاصله‌سنج و بلندگو</title>
+<style>
+  body{font-family:Vazirmatn,Tahoma,sans-serif;background:#141018;color:#eee;max-width:900px;margin:auto;padding:24px;line-height:1.9}
+  h1{color:#ff6fd8} h2{color:#ffb3ef;border-bottom:1px solid #553;padding-bottom:4px;margin-top:40px}
+  table{border-collapse:collapse;width:100%;margin:10px 0}
+  td,th{border:1px solid #444;padding:6px 10px;text-align:center}
+  th{background:#2a1f33}
+  code{background:#2a2a2a;padding:1px 6px;border-radius:4px;direction:ltr;unicode-bidi:embed}
+  pre{background:#222;padding:10px;border-radius:6px;direction:ltr;text-align:left;overflow:auto}
+  .warn{background:#3a1d1d;border-right:4px solid #ff5a5a;padding:8px 14px;border-radius:6px;margin:12px 0}
+  .ok{background:#1d3a24;border-right:4px solid #4fdc7a;padding:8px 14px;border-radius:6px;margin:12px 0}
+  .step{background:#221a2a;border-radius:8px;padding:10px 16px;margin:10px 0}
+  svg{background:#1b1b1b;border-radius:8px;display:block;margin:12px auto}
+</style>
+</head>
+<body>
+<h1>موچی — نصب نمایشگر گرد ، فاصله‌سنج و بلندگو</h1>
+<p>۱۲ مهر ۱۴۰۵. سه ماژول را <b>یکی‌یکی</b> وصل کن و بعد از هر کدام امتحان کن. اگر یکی کار نکرد ، می‌دانیم ایراد از همان آخری است.</p>
+
+<div class="warn"><b>قانون همیشگی:</b> قبل از وصل یا جدا کردن هر سیم ، کابل USB را از برد بکش. بعد از سیم‌کشی ، یک بار دیگر همه را با جدول چک کن ، بعد USB را وصل کن.</div>
+
+<h2>نقشه‌ي کلی پایه‌ها (سمت راست ESP32 ، USB بالا)</h2>
+<p>فقط سمت راست برد روی بردبورد آزاد است. ترتیب پایه‌ها از بالا همان است که از عکس برد خواندیم. صورتی = نمایشگر ، نارنجی = آمپ ، سبز = I2C ، قرمز/آبی = برق.</p>
+<svg viewBox="0 0 640 574" width="100%" style="max-width:640px;direction:ltr" font-family="Tahoma" font-size="14">
+<rect x="40" y="20" width="120" height="534" rx="8" fill="#20304a" stroke="#6a8fd0"/>
+<text x="100" y="44" fill="#cfe0ff" text-anchor="middle">ESP32 — سمت راست</text>
+<circle cx="150" cy="65" r="5" fill="#ffd84a"/>
+<text x="138" y="70" fill="#fff" text-anchor="end" style="direction:ltr">V5</text>
+<line x1="155" y1="65" x2="260" y2="65" stroke="#ff5050" stroke-width="4"/>
+<rect x="262" y="53" width="360" height="22" rx="5" fill="#222" stroke="#ff5050"/>
+<text x="612" y="70" fill="#ff5050" text-anchor="start" style="direction:rtl;unicode-bidi:embed">آمپ VIN (۵ ولت)</text>
+<circle cx="150" cy="91" r="5" fill="#555"/>
+<text x="138" y="96" fill="#777" text-anchor="end" style="direction:ltr">CMD</text>
+<circle cx="150" cy="117" r="5" fill="#555"/>
+<text x="138" y="122" fill="#777" text-anchor="end" style="direction:ltr">SD3</text>
+<circle cx="150" cy="143" r="5" fill="#555"/>
+<text x="138" y="148" fill="#777" text-anchor="end" style="direction:ltr">SD2</text>
+<circle cx="150" cy="169" r="5" fill="#ffd84a"/>
+<text x="138" y="174" fill="#fff" text-anchor="end" style="direction:ltr">G13</text>
+<line x1="155" y1="169" x2="260" y2="169" stroke="#ff6fd8" stroke-width="4"/>
+<rect x="262" y="157" width="360" height="22" rx="5" fill="#222" stroke="#ff6fd8"/>
+<text x="612" y="174" fill="#ff6fd8" text-anchor="start" style="direction:rtl;unicode-bidi:embed">نمایشگر SDA</text>
+<circle cx="150" cy="195" r="5" fill="#ffd84a"/>
+<text x="138" y="200" fill="#fff" text-anchor="end" style="direction:ltr">GND</text>
+<line x1="155" y1="195" x2="260" y2="195" stroke="#7a7aff" stroke-width="4"/>
+<rect x="262" y="183" width="360" height="22" rx="5" fill="#222" stroke="#7a7aff"/>
+<text x="612" y="200" fill="#7a7aff" text-anchor="start" style="direction:rtl;unicode-bidi:embed">ریل − (همه‌ي GNDها)</text>
+<circle cx="150" cy="221" r="5" fill="#ffd84a"/>
+<text x="138" y="226" fill="#fff" text-anchor="end" style="direction:ltr">G12</text>
+<line x1="155" y1="221" x2="260" y2="221" stroke="#ffa040" stroke-width="4"/>
+<rect x="262" y="209" width="360" height="22" rx="5" fill="#222" stroke="#ffa040"/>
+<text x="612" y="226" fill="#ffa040" text-anchor="start" style="direction:rtl;unicode-bidi:embed">آمپ DIN</text>
+<circle cx="150" cy="247" r="5" fill="#ffd84a"/>
+<text x="138" y="252" fill="#fff" text-anchor="end" style="direction:ltr">G14</text>
+<line x1="155" y1="247" x2="260" y2="247" stroke="#ff6fd8" stroke-width="4"/>
+<rect x="262" y="235" width="360" height="22" rx="5" fill="#222" stroke="#ff6fd8"/>
+<text x="612" y="252" fill="#ff6fd8" text-anchor="start" style="direction:rtl;unicode-bidi:embed">نمایشگر SCL</text>
+<circle cx="150" cy="273" r="5" fill="#ffd84a"/>
+<text x="138" y="278" fill="#fff" text-anchor="end" style="direction:ltr">G27</text>
+<line x1="155" y1="273" x2="260" y2="273" stroke="#ffa040" stroke-width="4"/>
+<rect x="262" y="261" width="360" height="22" rx="5" fill="#222" stroke="#ffa040"/>
+<text x="612" y="278" fill="#ffa040" text-anchor="start" style="direction:rtl;unicode-bidi:embed">آمپ BCLK</text>
+<circle cx="150" cy="299" r="5" fill="#ffd84a"/>
+<text x="138" y="304" fill="#fff" text-anchor="end" style="direction:ltr">G26</text>
+<line x1="155" y1="299" x2="260" y2="299" stroke="#ff6fd8" stroke-width="4"/>
+<rect x="262" y="287" width="360" height="22" rx="5" fill="#222" stroke="#ff6fd8"/>
+<text x="612" y="304" fill="#ff6fd8" text-anchor="start" style="direction:rtl;unicode-bidi:embed">نمایشگر DC</text>
+<circle cx="150" cy="325" r="5" fill="#ffd84a"/>
+<text x="138" y="330" fill="#fff" text-anchor="end" style="direction:ltr">G25</text>
+<line x1="155" y1="325" x2="260" y2="325" stroke="#ffa040" stroke-width="4"/>
+<rect x="262" y="313" width="360" height="22" rx="5" fill="#222" stroke="#ffa040"/>
+<text x="612" y="330" fill="#ffa040" text-anchor="start" style="direction:rtl;unicode-bidi:embed">آمپ LRC</text>
+<circle cx="150" cy="351" r="5" fill="#ffd84a"/>
+<text x="138" y="356" fill="#fff" text-anchor="end" style="direction:ltr">G33</text>
+<line x1="155" y1="351" x2="260" y2="351" stroke="#50e080" stroke-width="4"/>
+<rect x="262" y="339" width="360" height="22" rx="5" fill="#222" stroke="#50e080"/>
+<text x="612" y="356" fill="#50e080" text-anchor="start" style="direction:rtl;unicode-bidi:embed">SDA شتاب‌سنج + فاصله‌سنج</text>
+<circle cx="150" cy="377" r="5" fill="#ffd84a"/>
+<text x="138" y="382" fill="#fff" text-anchor="end" style="direction:ltr">G32</text>
+<line x1="155" y1="377" x2="260" y2="377" stroke="#50e080" stroke-width="4"/>
+<rect x="262" y="365" width="360" height="22" rx="5" fill="#222" stroke="#50e080"/>
+<text x="612" y="382" fill="#50e080" text-anchor="start" style="direction:rtl;unicode-bidi:embed">SCL شتاب‌سنج + فاصله‌سنج</text>
+<circle cx="150" cy="403" r="5" fill="#555"/>
+<text x="138" y="408" fill="#777" text-anchor="end" style="direction:ltr">G35</text>
+<circle cx="150" cy="429" r="5" fill="#555"/>
+<text x="138" y="434" fill="#777" text-anchor="end" style="direction:ltr">G34</text>
+<circle cx="150" cy="455" r="5" fill="#555"/>
+<text x="138" y="460" fill="#777" text-anchor="end" style="direction:ltr">SN</text>
+<circle cx="150" cy="481" r="5" fill="#555"/>
+<text x="138" y="486" fill="#777" text-anchor="end" style="direction:ltr">SP</text>
+<circle cx="150" cy="507" r="5" fill="#555"/>
+<text x="138" y="512" fill="#777" text-anchor="end" style="direction:ltr">EN</text>
+<circle cx="150" cy="533" r="5" fill="#ffd84a"/>
+<text x="138" y="538" fill="#fff" text-anchor="end" style="direction:ltr">3V3</text>
+<line x1="155" y1="533" x2="260" y2="533" stroke="#ff5050" stroke-width="4"/>
+<rect x="262" y="521" width="360" height="22" rx="5" fill="#222" stroke="#ff5050"/>
+<text x="612" y="538" fill="#ff5050" text-anchor="start" style="direction:rtl;unicode-bidi:embed">ریل + (VCC نمایشگر ، شتاب‌سنج ، فاصله‌سنج)</text>
+</svg>
+
+<table>
+<tr><th>ماژول</th><th>پایه‌ي ماژول</th><th>به کجا</th><th>توضیح</th></tr>
+<tr><td rowspan="7">نمایشگر گرد GC9A01</td><td>VCC</td><td>ریل +</td><td>۳٫۳ ولت. <b>هرگز V5</b></td></tr>
+<tr><td>GND</td><td>ریل −</td><td></td></tr>
+<tr><td>SCL</td><td>G14</td><td>همان سیم نمایشگر قبلی</td></tr>
+<tr><td>SDA</td><td>G13</td><td>همان سیم نمایشگر قبلی</td></tr>
+<tr><td>DC</td><td>G26</td><td>همان سیم نمایشگر قبلی</td></tr>
+<tr><td>CS</td><td>— وصل نکن</td><td>روی ماژول با مقاومت به GND کشیده شده</td></tr>
+<tr><td>RST</td><td>— وصل نکن</td><td>کد ریست نرم‌افزاری می‌فرستد</td></tr>
+<tr><td rowspan="4">فاصله‌سنج VL53L0X</td><td>VIN</td><td>ریل +</td><td></td></tr>
+<tr><td>GND</td><td>ریل −</td><td></td></tr>
+<tr><td>SDA</td><td>ردیف G33</td><td>همان ردیف SDA شتاب‌سنج</td></tr>
+<tr><td>SCL</td><td>ردیف G32</td><td>همان ردیف SCL شتاب‌سنج</td></tr>
+<tr><td rowspan="7">آمپلی‌فایر MAX98357</td><td>VIN</td><td>V5</td><td>۵ ولت USB — نه ریل +</td></tr>
+<tr><td>GND</td><td>ریل −</td><td></td></tr>
+<tr><td>BCLK</td><td>G27</td><td>قبلا CS نمایشگر قبلی بود</td></tr>
+<tr><td>LRC</td><td>G25</td><td>قبلا RES نمایشگر قبلی بود</td></tr>
+<tr><td>DIN</td><td>G12</td><td>پایه‌ي بوت — پایین را بخوان</td></tr>
+<tr><td>GAIN · SD</td><td>— وصل نکن</td><td>پیش‌فرض: بلندی متوسط</td></tr>
+<tr><td>+ و − بلندگو</td><td>دو سیم بلندگو</td><td><b>هیچ‌کدام به GND نرود</b></td></tr>
+</table>
+
+<div class="warn"><b>۱۹ مهر — تصمیم تازه: نمایشگر ۱٫۶۹ می‌ماند (نه گرد).</b> در این حالت مرحله‌ي ۱ پایین را <b>انجام نده</b> و به‌جایش:<br>
+• سیم <code>CS</code> نمایشگر ۱٫۶۹ را از <code>G27</code> بکش و به <b>ریل −</b> بزن.<br>
+• سیم <code>RES</code> را از <code>G25</code> بکش و به <b>ریل +</b> بزن.<br>
+• بقیه همان قبلی: <code>SCL→G14</code> ، <code>SDA→G13</code> ، <code>DC→G26</code> ، <code>VCC</code> و <code>BLK</code> → ریل + ، <code>GND</code> → ریل −.<br>
+با این کار <code>G27</code> و <code>G25</code> برای آمپ آزاد می‌شوند (مرحله‌ي ۳ عوض نمی‌شود). کد با <code>build_flags = -DDISPLAY_ROUND=0 -DST7789_NO_CS=1</code> آماده است.<br>
+⚠️ نمایشگر بدون CS روی برد ما هنوز امتحان نشده. اگر صفحه سیاه ماند ، به من بگو (یک خط کد عوض می‌شود: SPI mode).</div>
+<h2>مرحله ۱ — نمایشگر گرد (فعلا استفاده نمی‌شود)</h2>
+<div class="step">
+<p>۱. USB را بکش.</p>
+<p>۲. نمایشگر ۱٫۶۹ را از بردبورد دربیاور. سیم‌های <code>G14</code> ، <code>G13</code> ، <code>G26</code> ، ریل + و ریل − را نگه دار ، فقط از نمایشگر جدا کن.</p>
+<p>۳. سیم‌های <code>G25</code> و <code>G27</code> را کامل بردار (بعدا مال بلندگو می‌شوند).</p>
+<p>۴. نمایشگر گرد را طبق جدول وصل کن: <code>VCC</code>→ریل+ ، <code>GND</code>→ریل− ، <code>SCL</code>→<code>G14</code> ، <code>SDA</code>→<code>G13</code> ، <code>DC</code>→<code>G26</code>. <code>CS</code> و <code>RST</code> آزاد بمانند.</p>
+<p>۵. اسم پایه‌ها را از <b>روی خود ماژول</b> بخوان ، نه از روی ترتیب. اگر اسمی فرق داشت ، قبل از وصل کردن به من بگو.</p>
+<p>۶. USB را وصل کن ، آپلود کن ، مانیتور را باز کن.</p>
+</div>
+<div class="ok">درست است اگر: گیف شروع روی صفحه‌ي گرد بیاید و در مانیتور «نمایشگر: گرد GC9A01» چاپ شود. اگر تصویر چرخیده بود ، در مانیتور <code>o</code> بزن تا درست شود (ذخیره می‌شود).</div>
+
+<h2>مرحله ۲ — فاصله‌سنج VL53L0X</h2>
+<div class="warn">قبلش: پایه‌ي <b>SDA</b> این ماژول لحیم کدر داشت و قرار بود دوباره لحیم شود. اول دوباره لحیمش کن و با مولتی‌متر (حالت بوق) بین پایه و حلقه‌ي مسی‌اش تست کن.</div>
+<div class="step">
+<p>۱. USB را بکش.</p>
+<p>۲. <code>VIN</code>→ریل+ ، <code>GND</code>→ریل− ، <code>SDA</code>→ردیف <code>G33</code> ، <code>SCL</code>→ردیف <code>G32</code>. هر ردیف بردبورد ۵ سوراخ دارد: یکی پایه‌ي ESP32 ، یکی سیم شتاب‌سنج ، یکی سیم فاصله‌سنج.</p>
+<p>۳. <code>XSHUT</code> و <code>GPIO1</code> را آزاد بگذار.</p>
+<p>۴. چشم سنسور (دو سوراخ کوچک) را رو به جلو بگذار.</p>
+</div>
+<div class="ok">درست است اگر: در مانیتور «فاصله‌سنج VL53L0X پیدا شد (0x29)» بیاید. دستت را جلویش بگیر و <code>d</code> بزن: عدد میلی‌متر چاپ می‌شود.<br>
+رفتارها: دست را یک‌دفعه نزدیک کنی ← جا می‌خورد. دست را ۳ تا ۱۵ سانتی نگه داری ← «نوازش» می‌شود و لوس می‌شود. ۶ ثانیه نوازش ← عاشق. وقتی خواب است دستت را نزدیک کنی ← خمیازه‌کشان بیدار می‌شود.</div>
+
+<h2>مرحله ۳ — آمپلی‌فایر MAX98357 و بلندگو</h2>
+<div class="step">
+<p>۱. USB را بکش.</p>
+<p>۲. اگر روی ماژول هدر لحیم نشده ، اول هدر را لحیم کن (مثل نمایشگر).</p>
+<p>۳. اسم پایه‌ها را روی ماژول بخوان. باید این‌ها باشند: <code>LRC BCLK DIN GAIN SD GND VIN</code>. اگر فرق داشت ، به من بگو.</p>
+<p>۴. <code>VIN</code>→پایه‌ي <code>V5</code> (بالاترین پایه‌ي سمت راست) ، <code>GND</code>→ریل− ، <code>BCLK</code>→<code>G27</code> ، <code>LRC</code>→<code>G25</code> ، <code>DIN</code>→<code>G12</code>.</p>
+<p>۵. دو سیم بلندگو را به ترمینال <code>+</code> و <code>−</code> آمپ ببند. <b>هیچ‌کدام به GND یا ریل نرود</b> (خروجی BTL است).</p>
+</div>
+<div class="warn"><b>G12 پایه‌ي بوت است.</b> اگر موقع روشن شدن بالا (HIGH) باشد ، ESP32 روشن نمی‌شود. ورودی DIN آمپ نباید آن را بالا بکشد ، ولی اگر بعد از وصل کردن آمپ صفحه سیاه ماند و برد بالا نیامد: USB را بکش ، سیم <code>G12</code> را جدا کن و دوباره امتحان کن ، بعد به من بگو.</div>
+<div class="ok">درست است اگر: در مانیتور «صدا: I2S روشن» بیاید و موقع روشن شدن یک صدای کوتاه بالارونده («روشن شد») بشنوی. <code>s</code> = آوای بعدی (۲۱ آوا) ، <code>v</code> = بلندی (۰ بی‌صدا تا ۳). هر حالت تازه صدای خودش را دارد.</div>
+<div class="warn">اگر موقع صدای بلند برد ری‌استارت شد: برق USB کم آمده. با <code>v</code> بلندی را کم کن. بلندی ۳ ممکن است برای USB کامپیوتر زیاد باشد.</div>
+
+<h2>بعد از هر سه</h2>
+<div class="step">
+<p>• موچی حالا وقتی بی‌کار است خودش کارهایی می‌کند: لبخند ، فکر ، موسیقی گوش دادن ، غذا خوردن ، چهره‌های کاتالوگ ، خمیازه ، رنگین‌کمان (هر ۱۸ تا ۳۵ ثانیه یکی).</p>
+<p>• برای دقیق‌تر شدن واکنش به تکان و ضربه: <code>t</code> بزن و دوباره یاد بده. نکته‌ها: «SHAKE» را ۲ ثانیه تند چپ‌وراست تکان بده ، «TAP» را یک ضربه‌ي کوتاه با انگشت بزن ، «MOVE FAST» را فقط یک‌دفعه بالا بکش بدون چرخاندن.</p>
+<p>• فرمان‌های مانیتور: <code>p</code> رژه · <code>c</code> نوع رژه · <code>n</code>/<code>b</code> · عدد+Enter · <code>f</code> غذا · <code>l</code> موسیقی · <code>r</code> رنگین‌کمان · <code>s</code> صدا · <code>v</code> بلندی · <code>d</code> فاصله · <code>o</code> چرخش صفحه · <code>t</code> یاد دادن حرکت · <code>k</code> کالیبره‌ي جهت</p>
+</div>
+
+<h2>اگر خواستی دوباره نمایشگر ۱٫۶۹ را بگذاری</h2>
+<p>در <code>platformio.ini</code> خط <code>build_flags = -DDISPLAY_ROUND=1</code> را به <code>=0</code> تغییر بده و سیم‌کشی قدیمی (با CS→G27 و RES→G25) را برگردان. در این حالت صدا خاموش است ، چون پایه‌هایش با نمایشگر ۱٫۶۹ مشترک است.</p>
+</body>
+</html>
